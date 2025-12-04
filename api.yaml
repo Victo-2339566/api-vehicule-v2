@@ -1,0 +1,429 @@
+openapi: 3.0.3
+info:
+  title: API de gestion de véhicules
+  version: 1.0.0
+  description: >
+    API REST pour gérer une flotte de véhicules de location.
+    Les routes d'écriture sont protégées par un jeton JWT.
+
+servers:
+  - url: http://localhost:3000
+    description: Serveur local (développement)
+
+paths:
+  /api/auth/generatetoken:
+    post:
+      tags:
+        - Authentification
+      summary: Générer un jeton JWT
+      description: >
+        Retourne un jeton JWT si les identifiants sont valides.
+        Utilise l'utilisateur "admin@example.com" / "admin".
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+            example:
+              email: admin@example.com
+              password: admin
+      responses:
+        '200':
+          description: Jeton généré avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Requête invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Identifiants invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/vehicules:
+    get:
+      tags:
+        - Véhicules
+      summary: Lister les véhicules
+      description: >
+        Retourne la liste des véhicules.
+        Possibilité d'appliquer des filtres via la query string.
+      parameters:
+        - name: disponible
+          in: query
+          description: Filtrer par disponibilité (true / false)
+          required: false
+          schema:
+            type: boolean
+        - name: prixMax
+          in: query
+          description: Filtrer par prix maximal par jour
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: categorie
+          in: query
+          description: Filtrer par catégorie de véhicule
+          required: false
+          schema:
+            type: string
+            enum: [Économique, Standard, SUV, Luxe]
+        - name: marque
+          in: query
+          description: Filtrer par marque de véhicule
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des véhicules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vehicule'
+        '500':
+          description: Erreur interne du serveur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags:
+        - Véhicules
+      summary: Créer un véhicule
+      description: >
+        Crée un nouveau véhicule.
+        Route protégée par JWT (Authorization: Bearer &lt;token&gt;).
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehiculeInput'
+            example:
+              marque: Toyota
+              modele: Corolla
+              immatriculation: ABC123
+              categorie: Économique
+              prixJour: 45
+              annee: 2018
+              disponible: true
+              dateMiseEnService: 2018-05-10
+              options:
+                - Bluetooth
+                - GPS
+      responses:
+        '201':
+          description: Véhicule créé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Véhicule créé avec succès.
+                  data:
+                    $ref: '#/components/schemas/Vehicule'
+        '400':
+          description: Données invalides (erreur de validation Mongoose)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Jeton manquant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Jeton invalide ou expiré
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/vehicules/{id}:
+    get:
+      tags:
+        - Véhicules
+      summary: Obtenir un véhicule par ID
+      description: Retourne un véhicule selon son identifiant.
+      parameters:
+        - name: id
+          in: path
+          description: ID MongoDB du véhicule
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Véhicule trouvé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Vehicule'
+        '404':
+          description: Véhicule non trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - Véhicules
+      summary: Mettre à jour un véhicule
+      description: >
+        Met à jour un véhicule existant.
+        Route protégée par JWT.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID MongoDB du véhicule
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehiculeInput'
+      responses:
+        '200':
+          description: Véhicule mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Véhicule mis à jour avec succès.
+                  data:
+                    $ref: '#/components/schemas/Vehicule'
+        '400':
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Jeton manquant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Jeton invalide ou expiré
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Véhicule non trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Véhicules
+      summary: Supprimer un véhicule
+      description: >
+        Supprime un véhicule.
+        Route protégée par JWT.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID MongoDB du véhicule
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Véhicule supprimé avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Véhicule supprimé avec succès.
+        '401':
+          description: Jeton manquant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Jeton invalide ou expiré
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Véhicule non trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AuthRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: admin@example.com
+        password:
+          type: string
+          format: password
+          example: admin
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        token:
+          type: string
+          description: Jeton JWT à utiliser dans l'en-tête Authorization
+        message:
+          type: string
+          example: Jeton généré avec succès.
+
+    Vehicule:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID MongoDB du véhicule
+        marque:
+          type: string
+        modele:
+          type: string
+        immatriculation:
+          type: string
+        categorie:
+          type: string
+          enum: [Économique, Standard, SUV, Luxe]
+        prixJour:
+          type: number
+          format: float
+        annee:
+          type: integer
+          format: int32
+        disponible:
+          type: boolean
+        dateMiseEnService:
+          type: string
+          format: date
+          nullable: true
+        options:
+          type: array
+          items:
+            type: string
+        dateCreation:
+          type: string
+          format: date-time
+          nullable: true
+
+    VehiculeInput:
+      type: object
+      required:
+        - marque
+        - modele
+        - immatriculation
+        - categorie
+        - prixJour
+        - annee
+      properties:
+        marque:
+          type: string
+        modele:
+          type: string
+        immatriculation:
+          type: string
+        categorie:
+          type: string
+          enum: [Économique, Standard, SUV, Luxe]
+        prixJour:
+          type: number
+          format: float
+        annee:
+          type: integer
+          format: int32
+        disponible:
+          type: boolean
+          default: true
+        dateMiseEnService:
+          type: string
+          format: date
+          nullable: true
+        options:
+          type: array
+          items:
+            type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Message d'erreur en français.

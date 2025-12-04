@@ -1,0 +1,103 @@
+[{
+  "_id": {
+    "$oid": "6928a71768944c07dc1b5bb3"
+  },
+  "marque": "Toyota",
+  "modele": "Corolla",
+  "immatriculation": "ABC123",
+  "categorie": "Économique",
+  "prixJour": 60,
+  "annee": 2022,
+  "dateMiseEnService": "2022-03-01T00:00:00.000Z",
+  "disponible": true,
+  "transmission": "Automatique",
+  "climatiseur": true,
+  "options": [
+    "Bluetooth"
+  ],
+  "photos": []
+},
+{
+  "_id": {
+    "$oid": "6928a71768944c07dc1b5bb4"
+  },
+  "marque": "Honda",
+  "modele": "Civic",
+  "immatriculation": "XYZ789",
+  "categorie": "Compact",
+  "prixJour": 70,
+  "annee": 2021,
+  "dateMiseEnService": "2021-06-15T00:00:00.000Z",
+  "disponible": true,
+  "transmission": "Manuelle",
+  "climatiseur": true,
+  "options": [
+    "Caméra de recul"
+  ],
+  "photos": []
+},
+{
+  "_id": {
+    "$oid": "6928a71768944c07dc1b5bb5"
+  },
+  "marque": "BMW",
+  "modele": "X5",
+  "immatriculation": "BMW555",
+  "categorie": "Luxe",
+  "prixJour": 150,
+  "annee": 2023,
+  "dateMiseEnService": "2023-01-10T00:00:00.000Z",
+  "disponible": false,
+  "transmission": "Automatique",
+  "climatiseur": true,
+  "options": [
+    "Cuir",
+    "GPS",
+    "Toit panoramique"
+  ],
+  "photos": []
+},
+{
+  "_id": {
+    "$oid": "6928a71768944c07dc1b5bb6"
+  },
+  "marque": "Hyundai",
+  "modele": "Elantra",
+  "immatriculation": "HYU456",
+  "categorie": "Économique",
+  "prixJour": 55,
+  "annee": 2020,
+  "dateMiseEnService": "2020-09-01T00:00:00.000Z",
+  "disponible": true,
+  "transmission": "Automatique",
+  "climatiseur": false,
+  "options": [],
+  "photos": []
+},
+{
+  "_id": {
+    "$oid": "6928aa2c08b1db2d041097ae"
+  },
+  "marque": "Tesla",
+  "modele": "Model 3",
+  "immatriculation": "TES123",
+  "categorie": "Standard",
+  "prixJour": 120,
+  "annee": 2023,
+  "kilometrage": 15000,
+  "dateMiseEnService": {
+    "$date": "2023-03-01T00:00:00.000Z"
+  },
+  "disponible": true,
+  "transmission": "Automatique",
+  "climatiseur": true,
+  "options": [
+    "GPS",
+    "Autopilote"
+  ],
+  "photos": [],
+  "dateCreation": {
+    "$date": "2025-11-27T19:44:44.137Z"
+  },
+  "__v": 0
+}]
