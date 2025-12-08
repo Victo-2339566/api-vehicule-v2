@@ -1,6 +1,5 @@
-
 export default {
-  Base: '/api', 
+  Base: '/api',
   Vehicules: {
     Base: '/vehicules',
     Get: '/',

@@ -4,61 +4,62 @@ import { RouteError } from '@src/common/util/route-errors';
 import ENV from '@src/common/constants/ENV';
 import HttpStatusCodes from '@src/common/constants/HttpStatusCodes';
 
-// Étendre l'interface Request pour y ajouter l'utilisateur décodé
+// Permet d'ajouter la propriété 'user' à l'objet Request d'Express 
 declare global {
   namespace Express {
     interface Request {
-      user?: any;
+      user?: unknown;
     }
   }
 }
 
+/**
+ * Middleware qui vérifie le JWT sur toutes les routes sauf :
+ * - Les routes /api/auth/* (login, etc.)
+ * - Les requêtes GET (lecture publique)
+ */
 const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-  // Les routes d'authentification sont publiques
+  
+  //  Laisse routes d'authentification
   if (req.originalUrl.startsWith('/api/auth')) {
     return next();
   }
 
-  // Les routes GET sont publiques
+  //  Laisse toutes les requêtes GET 
   if (req.method === 'GET') {
     return next();
   }
 
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  //  Récupérer le token depuis  Authorization
+ 
+  const token = req.headers.authorization?.split(' ')[1];
 
+  // si existe pas
   if (!token) {
     return next(
-      new RouteError(
-        HttpStatusCodes.UNAUTHORIZED,
-        "Accès refusé. Jeton d'authentification manquant.",
-      ),
+      new RouteError(HttpStatusCodes.UNAUTHORIZED, "Accès refusé : jeton manquant.")
     );
   }
 
-  const jwtsecret = ENV.Jwtsecret;
-  if (!jwtsecret) {
+  // Vérifier que la clé secrète JWT est configuré
+  if (!ENV.Jwtsecret) {
     return next(
-      new RouteError(
-        HttpStatusCodes.INTERNAL_SERVER_ERROR,
-        "Erreur de configuration du serveur (JWT_SECRET manquant).",
-      ),
+      new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, "Configuration invalide : JWT_SECRET manquant.")
     );
   }
 
-  jwt.verify(token, jwtsecret, (err, decoded) => {
+  // verifie si tocken valide
+  jwt.verify(token, ENV.Jwtsecret, (err, decoded) => {
     if (err) {
-      // Jeton invalide ou expiré
+      // Token invalide 
       return next(
-        new RouteError(
-          HttpStatusCodes.FORBIDDEN,
-          "Jeton d'authentification invalide ou expiré.",
-        ),
+        new RouteError(HttpStatusCodes.FORBIDDEN, "Jeton invalide ou expiré.")
       );
     }
-    // Le jeton est valide, on attache l'utilisateur à la requête
+
+    // Token valide on stocke les infos de l'utilisateur dans req.user
     req.user = decoded;
-    next();
+    next(); 
   });
 };
 

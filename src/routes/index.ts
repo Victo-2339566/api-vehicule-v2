@@ -1,44 +1,35 @@
+// src/routes/index.ts
 import { Router } from 'express';
-
-import Paths from '@src/common/constants/Paths';
 import VehiculeRoutes from './VehiculeRoutes';
 import AuthRoutes from './AuthRoutes';
-
-
-/******************************************************************************
-                                Setup
-******************************************************************************/
+import Paths from '@src/common/constants/Paths';
 
 const apiRouter = Router();
 
+/******************************************************************************
+ * Vehicules
+ ******************************************************************************/
 
-// ** Add VehiculeRouter ** //
-
-// Init vehicule router
 const vehiculeRouter = Router();
 
-vehiculeRouter.get(Paths.Vehicules.Get, VehiculeRoutes.getAll);
-vehiculeRouter.get(Paths.Vehicules.GetOne, VehiculeRoutes.getOne);
-vehiculeRouter.post(Paths.Vehicules.Add, VehiculeRoutes.add);
-vehiculeRouter.put(Paths.Vehicules.Update, VehiculeRoutes.update);
+vehiculeRouter.get(Paths.Vehicules.Get,     VehiculeRoutes.getAll);
+vehiculeRouter.get(Paths.Vehicules.GetOne,  VehiculeRoutes.getOne);
+vehiculeRouter.post(Paths.Vehicules.Add,    VehiculeRoutes.add);
+vehiculeRouter.put(Paths.Vehicules.Update,  VehiculeRoutes.update);
 vehiculeRouter.delete(Paths.Vehicules.Delete, VehiculeRoutes.delete);
 
-// ** Add AuthRouter ** //
-
-// Init auth router
-const authRouter = Router();
-authRouter.post(Paths.Auth.GenerateToken, ...AuthRoutes.generateToken);
-
-
-// Add VehiculeRouter
 apiRouter.use(Paths.Vehicules.Base, vehiculeRouter);
 
-// Add AuthRouter
-apiRouter.use(Paths.Auth.Base, authRouter);
-
-
 /******************************************************************************
-                                Export default
-******************************************************************************/
+ * Auth
+ ******************************************************************************/
+
+const authRouter = Router();
+
+// POST /api/auth/generatetoken
+// Utilise le spread operator pour décomposer le tableau de middlewares
+authRouter.post(Paths.Auth.GenerateToken, ...AuthRoutes.generateToken);
+
+apiRouter.use(Paths.Auth.Base, authRouter);
 
 export default apiRouter;

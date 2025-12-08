@@ -2,19 +2,21 @@
   "name": "api-vehicules",
   "version": "0.0.0",
   "scripts": {
-  "build": "ts-node ./scripts/build.ts",
-  "clean-install": "rm -rf ./node_modules && rm -r package-lock.json && npm i",
-  "dev": "node --env-file=.env -r ts-node/register  ./src",
-  "dev:hot": "nodemon --exec \"npm run dev\" --watch ./src --ext .ts",
-  "lint": "eslint .",
-  "start": "node ./dist/index.js",
-  "test": "vitest",
-  "type-check": "tsc --noEmit"
-},
+    "build": "ts-node ./scripts/build.ts",
+    "clean-install": "rm -rf ./node_modules && rm -r package-lock.json && npm i",
+    "dev": "node --env-file=.env -r ts-node/register  ./src",
+    "dev:hot": "nodemon --exec \"npm run dev\" --watch ./src --ext .ts",
+    "lint": "eslint .",
+    "start": "node ./dist/index.js",
+    "test": "vitest",
+    "type-check": "tsc --noEmit"
+  },
   "engines": {
     "node": ">=16.0.0"
   },
   "dependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.19",
     "dotenv": "^17.2.3",
