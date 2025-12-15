@@ -1,8 +1,8 @@
 import { expect, describe, it, beforeAll } from 'vitest';
 import { agent } from './support/setup';
-import Vehicule from '@src/models/Vehicule';
-import Paths from '@src/common/constants/Paths';
-import HttpStatusCodes from '@src/common/constants/HttpStatusCodes';
+import Vehicule from '../src/models/Vehicule';
+import Paths from '../common/constants/Paths';
+import HttpStatusCodes from '../common/constants/HttpStatusCodes';
 
 // Données de base pour un véhicule valide
 const vehiculeValide = {

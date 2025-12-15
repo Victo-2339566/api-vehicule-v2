@@ -1,7 +1,8 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import { MongoMemoryServer, } from 'mongodb-memory-server';
+import { beforeAll, beforeEach,afterAll} from 'vitest';
 import mongoose from 'mongoose';
 import supertest from 'supertest';
-import app from '@src/server';
+import app from '../../src/server';
 
 let mongo: MongoMemoryServer;
 
@@ -21,7 +22,7 @@ beforeAll(async () => {
 // Avant chaque test
 beforeEach(async () => {
   // Nettoyer la base de données avant chaque test
-  const collections = await mongoose.connection.db.collections();
+  const collections = await mongoose.connection.db!.collections();
   for (const collection of collections) {
     await collection.deleteMany({});
   }

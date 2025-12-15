@@ -1,0 +1,160 @@
+[{
+  "_id": {
+    "$oid": "6928a71768944c07dc1b5bb6"
+  },
+  "marque": "Hyundai",
+  "modele": "Elantra",
+  "immatriculation": "HYU456",
+  "categorie": "Économique",
+  "prixJour": 55,
+  "annee": 2020,
+  "dateMiseEnService": "2020-09-01T00:00:00.000Z",
+  "disponible": true,
+  "transmission": "Automatique",
+  "climatiseur": false,
+  "options": [],
+  "photos": []
+},
+{
+  "_id": {
+    "$oid": "6928aa2c08b1db2d041097ae"
+  },
+  "marque": "Tesla",
+  "modele": "Model 3",
+  "immatriculation": "TES123",
+  "categorie": "Standard",
+  "prixJour": 120,
+  "annee": 2023,
+  "kilometrage": 15000,
+  "dateMiseEnService": {
+    "$date": "2023-03-01T00:00:00.000Z"
+  },
+  "disponible": true,
+  "transmission": "Automatique",
+  "climatiseur": true,
+  "options": [
+    "GPS",
+    "Autopilote"
+  ],
+  "photos": [],
+  "dateCreation": {
+    "$date": "2025-11-27T19:44:44.137Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6928a71768944c07dc1b5bb3"
+  },
+  "marque": "Toyota",
+  "modele": "Corolla",
+  "immatriculation": "ABC123",
+  "categorie": "Économique",
+  "prixJour": 70,
+  "annee": 2022,
+  "dateMiseEnService": "2022-03-01T00:00:00.000Z",
+  "disponible": true,
+  "transmission": "Automatique",
+  "climatiseur": true,
+  "options": [
+    "Bluetooth"
+  ],
+  "photos": []
+},
+{
+  "_id": {
+    "$oid": "693b1369962fc5fd0e156327"
+  },
+  "marque": "Mazda",
+  "modele": "CX30",
+  "immatriculation": "FTE1415",
+  "categorie": "SUV",
+  "prixJour": 90,
+  "annee": 2025,
+  "disponible": true,
+  "options": [
+    "GPS",
+    "Climatisation"
+  ],
+  "dateCreation": {
+    "$date": "2025-12-11T18:54:33.277Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "693b175a962fc5fd0e15632d"
+  },
+  "marque": "Kia",
+  "modele": "Seltos",
+  "immatriculation": "FT4532",
+  "categorie": "Économique",
+  "prixJour": 85,
+  "annee": 2024,
+  "disponible": true,
+  "options": [
+    "GPS"
+  ],
+  "dateCreation": {
+    "$date": "2025-12-11T19:11:22.990Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "693f467d8feb98d9157ca4f2"
+  },
+  "marque": "Subaru",
+  "modele": "Impreza",
+  "immatriculation": "FTE4598",
+  "categorie": "Économique",
+  "prixJour": 79,
+  "annee": 2024,
+  "disponible": false,
+  "options": [
+    "GPS"
+  ],
+  "dateCreation": {
+    "$date": "2025-12-14T23:21:33.740Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "693f4afa8feb98d9157ca508"
+  },
+  "marque": "GMC",
+  "modele": "Yukon",
+  "immatriculation": "FTE4752",
+  "categorie": "Luxe",
+  "prixJour": 199,
+  "annee": 2025,
+  "disponible": true,
+  "options": [
+    "All"
+  ],
+  "dateCreation": {
+    "$date": "2025-12-14T23:40:42.940Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "693f4beb8feb98d9157ca50c"
+  },
+  "marque": "KIA",
+  "modele": "Niro",
+  "immatriculation": "FRE4569",
+  "categorie": "Standard",
+  "prixJour": 99,
+  "annee": 2024,
+  "disponible": false,
+  "options": [
+    "Climatisation",
+    "GPS"
+  ],
+  "dateCreation": {
+    "$date": "2025-12-14T23:44:43.009Z"
+  },
+  "__v": 0
+}]
